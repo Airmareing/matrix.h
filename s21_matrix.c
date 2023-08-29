@@ -18,7 +18,8 @@ void s21_remove_matrix(matrix_t *A) {
 }
 
 int main() {
-    int N = 2, M = 2;
+    int N = 3, M = 3;
+    int R = 3, H = 3;
     
     // объявление
     matrix_t test;
@@ -27,32 +28,32 @@ int main() {
 
     // создание
     s21_create_matrix(N, M, &test);
-    s21_create_matrix(N, M, &test2);
-    s21_create_matrix(N, M, &result);
+    s21_create_matrix(R, H, &test2);
+    s21_create_matrix(N, H, &result);
 
     // заполнение
-    for (int i; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             scanf("%lf", &test.matrix[i][j]); 
         }
     }
-    for (int i; i < N; i++) {
-        for (int j = 0; j < M; j++) {
+    for (int i = 0; i < R; i++) {
+        for (int j = 0; j < H; j++) {
             scanf("%lf", &test2.matrix[i][j]); 
         }
     }
 
     // вывод
     printf("\n");
-    for (int i; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             printf("%.8lf ", test.matrix[i][j]); 
         }
         printf("\n");
     }
     printf("\n");
-    for (int i; i < N; i++) {
-        for (int j = 0; j < M; j++) {
+    for (int i = 0; i < R; i++) {
+        for (int j = 0; j < H; j++) {
             printf("%.8lf ", test2.matrix[i][j]); 
         }
         printf("\n");
@@ -62,7 +63,7 @@ int main() {
     printf("\nsum %d\n", s21_sum_matrix(&test, &test2, &result));
     //printf("\nequal %d\n", s21_eq_matrix(&test, &test2));
     printf("\n");
-    for (int i; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             printf("%.8lf ", result.matrix[i][j]); 
         }
@@ -71,8 +72,17 @@ int main() {
     printf("\nsub %d\n", s21_sub_matrix(&test, &test2, &result));
     //printf("\nequal %d\n", s21_eq_matrix(&test, &test2));
     printf("\n");
-    for (int i; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
+            printf("%.8lf ", result.matrix[i][j]); 
+        }
+        printf("\n");
+    }
+    
+    printf("\nmult %d\n", s21_mult_matrix(&test, &test2, &result));
+    printf("\n");
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < H; j++) {
             printf("%.8lf ", result.matrix[i][j]); 
         }
         printf("\n");
