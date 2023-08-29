@@ -4,7 +4,7 @@ CFLAGS := -Wall -Werror -Wextra
 all : clean build
 
 build :
-	${CC} ${CFLAGS} s21_arithmetic.c s21_matrix.c -o s21_matrix
+	${CC} ${CFLAGS} s21_arithmetic.c s21_matrix.c s21_complex_operations.c -o s21_matrix
 	./s21_matrix
 
 clean :
