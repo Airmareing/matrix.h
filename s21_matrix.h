@@ -24,4 +24,4 @@ int s21_inverse_matrix(matrix_t *A, matrix_t *result);
 int s21_is_correct(matrix_t *A);
 
 // my feat func
-int s21_check_size_of_matrices(matrix_t *A, matrix_t *B);
+int s21_check_size_of_matrices(matrix_t *A, matrix_t *B, int mult_matrix);

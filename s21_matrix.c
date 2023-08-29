@@ -29,7 +29,8 @@ int s21_is_correct(matrix_t *A) {
 }
 
 int main() {
-    int N = -2, M = 2;
+    int N = -3, M = 3;
+    int R = 3, H = 3;
     
     // объявление
     matrix_t test;
@@ -38,8 +39,8 @@ int main() {
 
     // создание
     s21_create_matrix(N, M, &test);
-    s21_create_matrix(N, M, &test2);
-    s21_create_matrix(N, M, &result);
+    s21_create_matrix(R, H, &test2);
+    s21_create_matrix(N, H, &result);
 
     // заполнение
     for (int i = 0; i < N; i++) {
@@ -47,7 +48,7 @@ int main() {
             scanf("%lf", &test.matrix[i][j]); 
         }
     }
-    for (int i = 0; i < N; i++) {
+    for (int i; i < N; i++) {
         for (int j = 0; j < M; j++) {
             scanf("%lf", &test2.matrix[i][j]); 
         }
@@ -62,7 +63,7 @@ int main() {
         printf("\n");
     }
     printf("\n");
-    for (int i = 0; i < N; i++) {
+    for (int i; i < N; i++) {
         for (int j = 0; j < M; j++) {
             printf("%.8lf ", test2.matrix[i][j]); 
         }
@@ -84,6 +85,15 @@ int main() {
     printf("\n");
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
+            printf("%.8lf ", result.matrix[i][j]); 
+        }
+        printf("\n");
+    }
+    
+    printf("\nmult %d\n", s21_mult_matrix(&test, &test2, &result));
+    printf("\n");
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < H; j++) {
             printf("%.8lf ", result.matrix[i][j]); 
         }
         printf("\n");
