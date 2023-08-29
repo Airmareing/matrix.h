@@ -1,13 +1,17 @@
 #include "s21_matrix.h"
 
 int s21_create_matrix(int rows, int columns, matrix_t *result) {
-    result->rows = rows;
-    result->columns = columns;
-    result->matrix = (double **)malloc(rows * sizeof(double *));
-    for(int i = 0; i < rows; i++) {
-        result->matrix[i] = (double *)malloc(columns * sizeof(double));
+    int check = 1;
+    if (s21_is_correct) {
+        result->rows = rows;
+        result->columns = columns;
+        result->matrix = (double **)malloc(rows * sizeof(double *));
+        for(int i = 0; i < rows; i++) {
+            result->matrix[i] = (double *)malloc(columns * sizeof(double));
+        }
+        check = 0;
     }
-    return 0;
+    return check;
 }
 
 void s21_remove_matrix(matrix_t *A) {
@@ -17,8 +21,15 @@ void s21_remove_matrix(matrix_t *A) {
     free(A->matrix);
 }
 
+int s21_is_correct(matrix_t *A) {
+  int check =
+      (A != NULL && A->rows > 0 && A->columns > 0) ? 1
+                                                                          : 0;
+  return check;
+}
+
 int main() {
-    int N = 3, M = 3;
+    int N = -3, M = 3;
     int R = 3, H = 3;
     
     // объявление
@@ -37,8 +48,8 @@ int main() {
             scanf("%lf", &test.matrix[i][j]); 
         }
     }
-    for (int i = 0; i < R; i++) {
-        for (int j = 0; j < H; j++) {
+    for (int i; i < N; i++) {
+        for (int j = 0; j < M; j++) {
             scanf("%lf", &test2.matrix[i][j]); 
         }
     }
@@ -52,8 +63,8 @@ int main() {
         printf("\n");
     }
     printf("\n");
-    for (int i = 0; i < R; i++) {
-        for (int j = 0; j < H; j++) {
+    for (int i; i < N; i++) {
+        for (int j = 0; j < M; j++) {
             printf("%.8lf ", test2.matrix[i][j]); 
         }
         printf("\n");
