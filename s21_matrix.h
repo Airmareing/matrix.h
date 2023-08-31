@@ -1,10 +1,11 @@
-#include <stdlib.h>
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct matrix_struct {
-    double** matrix;
-    int rows;
-    int columns;
+  double **matrix;
+  int rows;
+  int columns;
 } matrix_t;
 
 int s21_create_matrix(int rows, int columns, matrix_t *result);
@@ -27,5 +28,5 @@ int s21_determinant(matrix_t *A, double *result);
 int s21_inverse_matrix(matrix_t *A, matrix_t *result);
 
 // my feat func
-int s21_check_size_of_matrices(matrix_t *A, matrix_t *B, int mult_matrix);
-void s21_get_minor(matrix_t *A, matrix_t *minor, int current);
+int s21_check_size_of_matrices(matrix_t *A, matrix_t *B);
+void s21_get_minor(matrix_t *A, matrix_t *result, int x, int y);

@@ -1,113 +1,49 @@
 #include "s21_matrix.h"
 
 int s21_create_matrix(int rows, int columns, matrix_t *result) {
+  int check = 0;
+  if ((result != NULL) && (rows > 0) && (columns > 0)) {
     result->rows = rows;
     result->columns = columns;
     result->matrix = (double **)malloc(rows * sizeof(double *));
-    for(int i = 0; i < rows; i++) {
-        result->matrix[i] = (double *)malloc(columns * sizeof(double));
+    for (int i = 0; i < rows; i++) {
+      result->matrix[i] = (double *)malloc(columns * sizeof(double));
     }
-    return 0;
+  } else {
+    check = 1;
+  }
+  return check;
 }
 
 void s21_remove_matrix(matrix_t *A) {
-    for(int i = 0; i < A->rows; i++) {
-        free(A->matrix[i]);
+  if (A != NULL) {
+    for (int i = 0; i < A->rows; i++) {
+      free(A->matrix[i]);
     }
     free(A->matrix);
+  }
 }
 
-int main() {
-    int N = 3, M = 3;
-    int R = 3, H = 3;
-    
-    // объявление
-    matrix_t test;
-    matrix_t test2;
-    matrix_t result;
-    matrix_t result_t;
+int s21_check_size_of_matrices(matrix_t *A, matrix_t *B) {
+  int res = 0;
+  if ((A->rows != B->rows) || (A->columns != B->columns)) {
+    res = 2;
+  }
+  return res;
+}
 
-    // создание
-    s21_create_matrix(N, M, &test);
-    s21_create_matrix(R, H, &test2);
-    s21_create_matrix(N, H, &result);
-    s21_create_matrix(M, N, &result_t);
-
-    // заполнение
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            scanf("%lf", &test.matrix[i][j]); 
-        }
+void s21_get_minor(matrix_t *A, matrix_t *result, int x, int y) {
+  int k = 0;
+  for (int i = 0; i < result->rows; i++) {
+    if (i == x) {
+      k = 1;
     }
-    for (int i = 0; i < R; i++) {
-        for (int j = 0; j < H; j++) {
-            scanf("%lf", &test2.matrix[i][j]); 
-        }
+    int m = 0;
+    for (int j = 0; j < result->rows; j++) {
+      if (j == y) {
+        m = 1;
+      }
+      result->matrix[i][j] = A->matrix[i + k][j + m];
     }
-
-    // вывод
-    printf("\n");
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            printf("%.8lf ", test.matrix[i][j]); 
-        }
-        printf("\n");
-    }
-    printf("\n");
-    for (int i = 0; i < R; i++) {
-        for (int j = 0; j < H; j++) {
-            printf("%.8lf ", test2.matrix[i][j]); 
-        }
-        printf("\n");
-    }
-
-    // транспонированная
-    printf("\ntranspose %d\n", s21_transpose(&test, &result_t));
-    printf("\n");
-    for (int i = 0; i < R; i++) {
-        for (int j = 0; j < H; j++) {
-            printf("%.8lf ", result_t.matrix[i][j]); 
-        }
-        printf("\n");
-    }
-
-    
-    printf("\nsum %d\n", s21_sum_matrix(&test, &test2, &result));
-    //printf("\nequal %d\n", s21_eq_matrix(&test, &test2));
-    printf("\n");
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            printf("%.8lf ", result.matrix[i][j]); 
-        }
-        printf("\n");
-    }
-    printf("\nsub %d\n", s21_sub_matrix(&test, &test2, &result));
-    //printf("\nequal %d\n", s21_eq_matrix(&test, &test2));
-    printf("\n");
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            printf("%.8lf ", result.matrix[i][j]); 
-        }
-        printf("\n");
-    }
-    
-    printf("\nmult %d\n", s21_mult_matrix(&test, &test2, &result));
-    printf("\n");
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < H; j++) {
-            printf("%.8lf ", result.matrix[i][j]); 
-        }
-        printf("\n");
-    }
-
-    // вылетает сега
-    
-    // double det = 0;
-    // printf("\ndet %d\n", s21_determinant(&test, &det));
-    
-    
-    
-    // удаление
-    s21_remove_matrix(&test);
-    s21_remove_matrix(&test2);
+  }
 }

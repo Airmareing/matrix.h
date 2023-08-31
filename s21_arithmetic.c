@@ -1,73 +1,85 @@
 #include "s21_matrix.h"
 
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
-    int check = s21_check_size_of_matrices(A, B, 0);
-    if (!check) {
-        for (int i = 0; i < A->rows; i++) {
-            for (int j = 0; j < A->columns; j++) {
-                if (A->matrix[i][j] != B->matrix[i][j])
-                    check = 0;
-            }
+  int check = s21_check_size_of_matrices(A, B);
+  if (!check) {
+    check = 1;  // SUCCESS - 1
+    for (int i = 0; i < A->rows; i++) {
+      for (int j = 0; j < A->columns; j++) {
+        if (fabs((A->matrix)[i][j] - (B->matrix)[i][j]) < 1e-7) {
+          check = 1;
+        } else {
+          check = 0;
         }
+      }
     }
-    return check;
+  } else {
+    check = 0;
+  }
+  return check;
 }
 
 int s21_sum_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
-    int check = s21_check_size_of_matrices(A, B, 0);
-    if (!check) {
-        for (int i = 0; i < A->rows; i++) {
-            for (int j = 0; j < A->columns; j++) {
-                result->matrix[i][j] = A->matrix[i][j] + B->matrix[i][j];
-            }
-        }
+  int check = s21_check_size_of_matrices(A, B);
+  if (!check && (result != NULL)) {
+    s21_create_matrix(A->rows, A->columns, result);
+    for (int i = 0; i < A->rows; i++) {
+      for (int j = 0; j < A->columns; j++) {
+        result->matrix[i][j] = A->matrix[i][j] + B->matrix[i][j];
+      }
     }
-    return check;
+  } else if (result == NULL) {
+    check = 1;
+  }
+  return check;
 }
 
-int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result){
-    int check = s21_check_size_of_matrices(A, B, 0);
-    if (!check) {
-        for (int i = 0; i < A->rows; i++) {
-            for (int j = 0; j < A->columns; j++) {
-                result->matrix[i][j] = A->matrix[i][j] - B->matrix[i][j];
-            }
-        }
+int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
+  int check = s21_check_size_of_matrices(A, B);
+  if (!check && (result != NULL)) {
+    s21_create_matrix(A->rows, A->columns, result);
+    for (int i = 0; i < A->rows; i++) {
+      for (int j = 0; j < A->columns; j++) {
+        result->matrix[i][j] = A->matrix[i][j] - B->matrix[i][j];
+      }
     }
-    return check;
+  } else if (result == NULL) {
+    check = 1;
+  }
+  return check;
 }
 int s21_mult_number(matrix_t *A, double number, matrix_t *result) {
+  int check = 0;
+  if (result == NULL) {
+    check = 1;
+  } else {
+    s21_create_matrix(A->rows, A->columns, result);
     for (int i = 0; i < A->rows; i++) {
-        for (int j = 0; j < A->columns; j++) {
-            result->matrix[i][j] = A->matrix[i][j] * number;
-        }
+      for (int j = 0; j < A->columns; j++) {
+        result->matrix[i][j] = A->matrix[i][j] * number;
+      }
     }
-    return 0; // посмотреть, что выдаёт
+  }
+  return check;
 }
 
 int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
-    int check = s21_check_size_of_matrices(A, B, 1);
-    if (!check) {
-        for (int i = 0; i < B->rows; i++) {
-            for (int j = 0; j < A->columns; j++) {
-                int k = 0;
-                while (k < B->rows) {
-                    result->matrix[i][j] += A->matrix[i][k] * B->matrix[k][j];
-                    k++;
-                }
-            }
+  int check = 0;
+  if (result != NULL) {
+    if (A->columns == B->rows) {
+      s21_create_matrix(A->rows, B->columns, result);
+      for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < B->columns; j++) {
+          for (int k = 0; k < A->columns; k++) {
+            result->matrix[i][j] += A->matrix[i][k] * B->matrix[k][j];
+          }
         }
+      }
+    } else {
+      check = 2;
     }
-    return check;
-}
-
-int s21_check_size_of_matrices(matrix_t *A, matrix_t *B, int mult_matrix) {
-    int res = 0;
-    //printf("ok");
-    if ((mult_matrix == 0) && ((A->rows != B->rows) || (A->columns != B->columns))) {
-        res = 2;
-    } else if ((mult_matrix == 1) && (A->columns != B->rows)) {
-        res = 2;
-    }
-    return res;
+  } else {
+    check = 1;
+  }
+  return check;
 }
